@@ -67,9 +67,9 @@
 
 ## 7. Database Design (Firestore)
 
-- **Users:** `userId`, `name`, `exp`, `level`, `avatar`  
-- **Tasks:** `taskId`, `userId`, `title`, `difficulty`, `isCompleted`, `createdAt`  
-- **Friends:** `userId`, `friendId`, `status`  
+- **Users:** `userId`, `name`, `email`, `exp`, `level`, `avatar`, `createdAt`  
+- **Tasks:** `taskId`, `userId`, `title`, `description`, `difficulty`, `expReward`, `isCompleted`, `createdAt`, `completedAt`  
+- **Friends:** `userId`, `friendId`, `status`, `createdAt`  
 - **Activities:** `activityId`, `userId`, `type`, `content`, `timestamp`  
 - **Challenges:** `challengeId`, `title`, `goal`, `reward`  
 - **UserChallenges:** `userId`, `challengeId`, `progress`, `isCompleted`  
