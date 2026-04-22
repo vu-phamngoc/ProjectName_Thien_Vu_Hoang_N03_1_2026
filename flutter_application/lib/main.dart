@@ -17,27 +17,17 @@ class MyApp extends StatelessWidget {
 }
 
 class DemoPage extends StatelessWidget {
-    const DemoPage({super.key});
+  const DemoPage({super.key});
 
-      // =========================
-        // 👥 THÀNH VIÊN NHÓM
-          // =========================
-            final List<Map<String, String>> members = const [
-                {
-                      "name": "Phạm Ngọc Vũ",
-                            "msv": "23010192",
-                                },
-                                    {
-                                          "name": "Nguyễn Hoàng Thiên",
-                                                "msv": "23010139",
-                                                    },
-                                                        {
-                                                              "name": "Trần Mạnh Hoàng",
-                                                                    "msv": "23010290",
-                                                                        },
-                                                                          ];
-                                                                          
-}
+  // =========================
+  // 👥 THÀNH VIÊN NHÓM
+  // =========================
+  final List<Map<String, String>> members = const [
+    {"name": "Phạm Ngọc Vũ", "msv": "23010192"},
+    {"name": "Nguyễn Hoàng Thiên", "msv": "23010139"},
+    {"name": "Trần Mạnh Hoàng", "msv": "23010290"},
+  ];
+
   // =========================
   // USERS
   // =========================
@@ -153,16 +143,11 @@ class DemoPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Life RPG - Firestore Demo"),
       ),
-
       body: SingleChildScrollView(
         child: Column(
           children: [
-
             const SizedBox(height: 10),
-
-            // =========================
             // 👥 THÀNH VIÊN NHÓM
-            // =========================
             Container(
               margin: const EdgeInsets.all(10),
               padding: const EdgeInsets.all(10),
@@ -175,26 +160,18 @@ class DemoPage extends StatelessWidget {
                 children: [
                   const Text(
                     "THÀNH VIÊN NHÓM",
-                    style: TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 5),
-
                   ...members.asMap().entries.map((e) {
                     int i = e.key;
                     var m = e.value;
-
-                    List<Color> colors = [
-                      Colors.red,
-                      Colors.green,
-                      Colors.blue,
-                    ];
-
+                    List<Color> colors = [Colors.red, Colors.green, Colors.blue];
                     return Text(
                       "${m['name']} - ${m['msv']}",
                       style: TextStyle(
                         fontSize: 13,
-                        color: colors[i],
+                        color: colors[i % colors.length], // Dùng % để tránh lỗi nếu danh sách thành viên > 3
                         fontWeight: FontWeight.w500,
                       ),
                     );
@@ -202,51 +179,15 @@ class DemoPage extends StatelessWidget {
                 ],
               ),
             ),
-
-            // ================= USERS =================
-            rowItem(
-              Colors.red,
-              Icons.person,
-              "USERS: ${users['name']} | ${users['email']} | EXP ${users['exp']} | LV ${users['level']} | ${users['createdAt']}",
-            ),
-
-            // ================= TASKS =================
-            ...tasks.map((t) => rowItem(
-                  Colors.green,
-                  Icons.task,
-                  "TASK: ${t['title']} | ${t['difficulty']} | EXP ${t['expReward']} | Done ${t['isCompleted']}",
-                )),
-
-            // ================= FRIENDS =================
-            ...friends.map((f) => rowItem(
-                  Colors.blue,
-                  Icons.group,
-                  "FRIEND: ${f['userId']} → ${f['friendId']} | ${f['status']}",
-                )),
-
-            // ================= ACTIVITIES =================
-            ...activities.map((a) => rowItem(
-                  Colors.orange,
-                  Icons.flash_on,
-                  "ACTIVITY: ${a['type']} | ${a['content']}",
-                )),
-
-            // ================= CHALLENGES =================
-            ...challenges.map((c) => rowItem(
-                  Colors.purple,
-                  Icons.emoji_events,
-                  "CHALLENGE: ${c['title']} | Goal ${c['goal']} | Reward ${c['reward']}",
-                )),
-
-            // ================= USER CHALLENGES =================
-            ...userChallenges.map((uc) => rowItem(
-                  Colors.teal,
-                  Icons.flag,
-                  "USER CHALLENGE: ${uc['userId']} | ${uc['challengeId']} | ${uc['progress']}",
-                )),
+            rowItem(Colors.red, Icons.person, "USERS: ${users['name']} | ${users['email']} | EXP ${users['exp']} | LV ${users['level']}"),
+            ...tasks.map((t) => rowItem(Colors.green, Icons.task, "TASK: ${t['title']} | ${t['difficulty']} | Done ${t['isCompleted']}")),
+            ...friends.map((f) => rowItem(Colors.blue, Icons.group, "FRIEND: ${f['userId']} → ${f['friendId']} | ${f['status']}")),
+            ...activities.map((a) => rowItem(Colors.orange, Icons.flash_on, "ACTIVITY: ${a['type']} | ${a['content']}")),
+            ...challenges.map((c) => rowItem(Colors.purple, Icons.emoji_events, "CHALLENGE: ${c['title']} | Goal ${c['goal']}")),
+            ...userChallenges.map((uc) => rowItem(Colors.teal, Icons.flag, "USER CHALLENGE: ${uc['userId']} | Progress: ${uc['progress']}")),
           ],
         ),
       ),
     );
   }
-}
+} // NGOẶC ĐÓNG CỦA DemoPage PHẢI NẰM Ở CUỐI CÙNG
