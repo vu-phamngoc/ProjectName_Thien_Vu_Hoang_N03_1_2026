@@ -16,99 +16,56 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class DemoPage extends StatelessWidget {
+// =========================
+// DEMO PAGE (STATEFUL)
+// =========================
+class DemoPage extends StatefulWidget {
   const DemoPage({super.key});
 
+  @override
+  State<DemoPage> createState() => _DemoPageState();
+}
+
+class _DemoPageState extends State<DemoPage> {
+  int _currentIndex = 0;
+
   // =========================
-  // 👥 THÀNH VIÊN NHÓM
+  // DATA
   // =========================
-  final List<Map<String, String>> members = const [
+  final List<Map<String, String>> members = [
     {"name": "Phạm Ngọc Vũ", "msv": "23010192"},
     {"name": "Nguyễn Hoàng Thiên", "msv": "23010139"},
     {"name": "Trần Mạnh Hoàng", "msv": "23010290"},
   ];
 
-  // =========================
-  // USERS
-  // =========================
-  final Map<String, dynamic> users = const {
-    "userId": "U01",
+  Map<String, dynamic> users = {
     "name": "Phạm Ngọc Vũ",
     "email": "vuph@gmail.com",
     "exp": 120,
     "level": 2,
-    "avatar": "avatar.png",
-    "createdAt": "2026-04-15",
   };
 
-  // =========================
-  // TASKS
-  // =========================
-  final List<Map<String, dynamic>> tasks = const [
+  List<Map<String, dynamic>> tasks = [
     {
-      "taskId": "T01",
-      "userId": "U01",
       "title": "Hoc Flutter",
-      "description": "UI basic",
       "difficulty": "easy",
       "expReward": 50,
-      "isCompleted": true,
-      "createdAt": "2026-04-15",
-      "completedAt": "2026-04-15",
-    }
-  ];
-
-  // =========================
-  // FRIENDS
-  // =========================
-  final List<Map<String, dynamic>> friends = const [
-    {
-      "userId": "U01",
-      "friendId": "U02",
-      "status": "accepted",
-      "createdAt": "2026-04-10",
-    }
-  ];
-
-  // =========================
-  // ACTIVITIES
-  // =========================
-  final List<Map<String, dynamic>> activities = const [
-    {
-      "activityId": "A01",
-      "userId": "U01",
-      "type": "task_completed",
-      "content": "Completed task Hoc Flutter",
-      "timestamp": "2026-04-15",
-    }
-  ];
-
-  // =========================
-  // CHALLENGES
-  // =========================
-  final List<Map<String, dynamic>> challenges = const [
-    {
-      "challengeId": "C01",
-      "title": "7-day streak",
-      "goal": 7,
-      "reward": 500,
-    }
-  ];
-
-  // =========================
-  // USER CHALLENGES
-  // =========================
-  final List<Map<String, dynamic>> userChallenges = const [
-    {
-      "userId": "U01",
-      "challengeId": "C01",
-      "progress": 3,
       "isCompleted": false,
     }
   ];
 
   // =========================
-  // UI STYLE
+  // LEVEL UP
+  // =========================
+  void checkLevelUp() {
+    if (users['exp'] >= 200) {
+      users['level'] += 1;
+      users['exp'] = 0;
+    }
+  }
+
+  // =========================
+  // UI COMPONENT
   // =========================
   Widget rowItem(Color color, IconData icon, String text) {
     return Container(
@@ -137,57 +94,139 @@ class DemoPage extends StatelessWidget {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Life RPG - Firestore Demo"),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 10),
-            // 👥 THÀNH VIÊN NHÓM
-            Container(
-              margin: const EdgeInsets.all(10),
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.05),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "THÀNH VIÊN NHÓM",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 5),
-                  ...members.asMap().entries.map((e) {
-                    int i = e.key;
-                    var m = e.value;
-                    List<Color> colors = [Colors.red, Colors.green, Colors.blue];
-                    return Text(
-                      "${m['name']} - ${m['msv']}",
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: colors[i % colors.length], // Dùng % để tránh lỗi nếu danh sách thành viên > 3
-                        fontWeight: FontWeight.w500,
-                      ),
-                    );
-                  }).toList(),
-                ],
-              ),
+  // =========================
+  // HOME TAB
+  // =========================
+  Widget homeTab() {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          const SizedBox(height: 10),
+
+          // 👥 THÀNH VIÊN
+          Container(
+            margin: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.05),
+              borderRadius: BorderRadius.circular(8),
             ),
-            rowItem(Colors.red, Icons.person, "USERS: ${users['name']} | ${users['email']} | EXP ${users['exp']} | LV ${users['level']}"),
-            ...tasks.map((t) => rowItem(Colors.green, Icons.task, "TASK: ${t['title']} | ${t['difficulty']} | Done ${t['isCompleted']}")),
-            ...friends.map((f) => rowItem(Colors.blue, Icons.group, "FRIEND: ${f['userId']} → ${f['friendId']} | ${f['status']}")),
-            ...activities.map((a) => rowItem(Colors.orange, Icons.flash_on, "ACTIVITY: ${a['type']} | ${a['content']}")),
-            ...challenges.map((c) => rowItem(Colors.purple, Icons.emoji_events, "CHALLENGE: ${c['title']} | Goal ${c['goal']}")),
-            ...userChallenges.map((uc) => rowItem(Colors.teal, Icons.flag, "USER CHALLENGE: ${uc['userId']} | Progress: ${uc['progress']}")),
-          ],
-        ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "THÀNH VIÊN NHÓM",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                ...members.asMap().entries.map((e) {
+                  int i = e.key;
+                  var m = e.value;
+                  List<Color> colors = [Colors.red, Colors.green, Colors.blue];
+                  return Text(
+                    "${m['name']} - ${m['msv']}",
+                    style: TextStyle(
+                      color: colors[i % colors.length],
+                    ),
+                  );
+                }).toList(),
+              ],
+            ),
+          ),
+
+          rowItem(Colors.red, Icons.person,
+              "USER: ${users['name']} | ${users['email']} | EXP ${users['exp']} | LV ${users['level']}"),
+        ],
       ),
     );
   }
-} // NGOẶC ĐÓNG CỦA DemoPage PHẢI NẰM Ở CUỐI CÙNG
+
+  // =========================
+  // TASK TAB
+  // =========================
+  Widget taskTab() {
+    return ListView(
+      children: tasks.map((t) {
+        return Card(
+          margin: const EdgeInsets.all(10),
+          child: ListTile(
+            title: Text(t['title']),
+            subtitle: Text(t['difficulty']),
+            trailing: t['isCompleted']
+                ? const Icon(Icons.check, color: Colors.green)
+                : ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        t['isCompleted'] = true;
+                        users['exp'] += t['expReward'];
+                        checkLevelUp();
+                      });
+                    },
+                    child: const Text("DONE"),
+                  ),
+          ),
+        );
+      }).toList(),
+    );
+  }
+
+  // =========================
+  // PROFILE TAB
+  // =========================
+  Widget profileTab() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(Icons.person, size: 60),
+          Text(users['name'], style: const TextStyle(fontSize: 18)),
+          Text(users['email']),
+          Text("Level: ${users['level']}"),
+        ],
+      ),
+    );
+  }
+
+  // =========================
+  // BUILD
+  // =========================
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> tabs = [
+      homeTab(),
+      taskTab(),
+      profileTab(),
+    ];
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Life RPG"),
+      ),
+      body: tabs[_currentIndex],
+
+      // 👇 TASKBAR
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        selectedItemColor: Colors.blue,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.task),
+            label: "Tasks",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: "Profile",
+          ),
+        ],
+      ),
+    );
+  }
+}
