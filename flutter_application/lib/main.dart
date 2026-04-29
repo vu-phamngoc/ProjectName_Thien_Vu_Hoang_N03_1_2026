@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/front/screens/home_screen.dart'; 
+import 'package:flutter_application/front/screens/task_screen.dart';
+import 'package:flutter_application/front/screens/profile_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -65,82 +68,6 @@ class _DemoPageState extends State<DemoPage> {
   }
 
   // =========================
-  // UI COMPONENT
-  // =========================
-  Widget rowItem(Color color, IconData icon, String text) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: color.withOpacity(0.12),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        children: [
-          Icon(icon, color: color, size: 18),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(
-              text,
-              style: TextStyle(
-                fontSize: 13,
-                color: color,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // =========================
-  // HOME TAB
-  // =========================
-  Widget homeTab() {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          const SizedBox(height: 10),
-
-          // 👥 THÀNH VIÊN
-          Container(
-            margin: const EdgeInsets.all(10),
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.05),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  "THÀNH VIÊN NHÓM",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                ...members.asMap().entries.map((e) {
-                  int i = e.key;
-                  var m = e.value;
-                  List<Color> colors = [Colors.red, Colors.green, Colors.blue];
-                  return Text(
-                    "${m['name']} - ${m['msv']}",
-                    style: TextStyle(
-                      color: colors[i % colors.length],
-                    ),
-                  );
-                }).toList(),
-              ],
-            ),
-          ),
-
-          rowItem(Colors.red, Icons.person,
-              "USER: ${users['name']} | ${users['email']} | EXP ${users['exp']} | LV ${users['level']}"),
-        ],
-      ),
-    );
-  }
-
-  // =========================
   // TASK TAB
   // =========================
   Widget taskTab() {
@@ -187,12 +114,12 @@ class _DemoPageState extends State<DemoPage> {
   }
 
   // =========================
-  // BUILD
+  // BUILD (DUY NHẤT 1 HÀM BUILD TẠI ĐÂY)
   // =========================
   @override
   Widget build(BuildContext context) {
     List<Widget> tabs = [
-      homeTab(),
+      const HomeScreen(), // <--- Đã gọi đúng file home_screen.dart
       taskTab(),
       profileTab(),
     ];
@@ -203,7 +130,7 @@ class _DemoPageState extends State<DemoPage> {
       ),
       body: tabs[_currentIndex],
 
-      // 👇 TASKBAR
+      // 👇 TASKBAR ĐIỀU HƯỚNG
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) {
