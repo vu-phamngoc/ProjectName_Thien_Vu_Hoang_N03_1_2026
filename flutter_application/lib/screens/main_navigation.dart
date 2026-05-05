@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../screens/home_screen.dart';
 import '../screens/community_screen.dart';
 import '../screens/shop_screen.dart';
+import '../screens/map_screen.dart';
 
 class MainNavigation extends StatefulWidget {
   const MainNavigation({super.key});
@@ -20,7 +21,7 @@ class _MainNavigationState extends State<MainNavigation> {
     const HomeScreen(), // Quests
     const CommunityScreen(), // Guild
     const ShopScreen(), // Shop
-    const Scaffold(body: Center(child: Text("MAP SCREEN"))), // Placeholder
+    const MapScreen(), // Map
   ];
 
   void _onItemTapped(int index) {
