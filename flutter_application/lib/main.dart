@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/front/screens/home_screen.dart';
 import 'package:flutter_application/front/screens/profile_screen.dart';
 import 'package:flutter_application/front/screens/login_screen.dart';
+import 'package:flutter_application/front/screens/about_screen.dart';
 
 void main() {
   runApp(const UngDung());
@@ -45,7 +46,7 @@ class _TrangGiaoDienState extends State<TrangGiaoDien> {
   Widget build(BuildContext nguCanh) {
     List<Widget> danhSachTab = [
       const HomeScreen(),
-      _tabGioiThieu(),
+      AboutScreen(),
       _tabLienHe(),
     ];
 
